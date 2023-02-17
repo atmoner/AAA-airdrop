@@ -1,0 +1,14 @@
+{
+  "name": "AAA-airdrop",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "keywords": [],
+  "author": "atmon3r",
+  "license": "ISC",
+  "dependencies": {
+    "@cosmjs/proto-signing": "^0.29.5",
+    "@cosmjs/stargate": "^0.29.5"
+  }
+}
