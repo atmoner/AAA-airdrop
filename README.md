@@ -9,13 +9,30 @@ npm i
 
 ## Use
 ### First step
-Very important step!
-This is the sending of the multisend from your json generated  
-Think about testing a small amount of address before doing large tests.
+1. Generate the input json file with the AAA [Comics address checker](https://git.aaa-metahuahua.com/AAA_Community/comicsbooksadresscheckers)
+2. Name the json file `owners_eligible.json`
+3. Place it in the same folder as the script
+4. See section below (depending of your OS) 
 
+### Env var :
+- AIRDROP_MNEMONIC : the mnemonic seed of the wallet
+- AIRDROP_GAS : amount of gas to use (default value is env var is not present : 1000000)
+- AIRDROP_IS_SIMULATED : set the env var with anything if you want a dry-run
+
+### Usage Linux / MacOS
 ```
-node multiSend.js
+// Simulation
+AIRDROP_MNEMONIC="<your mnemonic seed>" AIRDROP_IS_SIMULATED=true node multiSend.js
+
+// Real
+AIRDROP_MNEMONIC="<your mnemonic seed>" AIRDROP_GAS=<your amount of gas> node multiSend.js
 ```
 
-I voluntarily commented the broadcast to avoid errors during the tests  
-To activate the broadcast, uncomment the end of the code
+### Usage Windows
+```
+// Simulation
+$env:AIRDROP_MNEMONIC='<your mnemonic seed>'; $env:AIRDROP_IS_SIMULATED='true'; node multiSend.js; Remove-Item Env:AIRDROP_MNEMONIC; Remove-Item Env:AIRDROP_IS_SIMULATED
+
+// Real
+$env:AIRDROP_MNEMONIC='<your mnemonic seed>'; $env:AIRDROP_GAS='<your amount of gas>'; node multiSend.js; Remove-Item Env:AIRDROP_MNEMONIC; Remove-Item Env:AIRDROP_GAS
+```
