@@ -5,6 +5,8 @@ import {
   defaultRegistryTypes,
   assertIsDeliverTxSuccess,
   SigningStargateClient,
+  GasPrice,
+  calculateFee
 } from '@cosmjs/stargate'
 import fs from "fs"
 
@@ -94,7 +96,14 @@ const copieMultiSend = [{
 if (isSimulated) {
   // View message before broadcast
   console.log("ready to simulate multisig for", outputs.length, "addresses")
-  console.log('Gas estimated: ' + await client.simulate(senderWallet.address, copieMultiSend, ''))
+  let gasEstimation = await client.simulate(senderWallet.address, copieMultiSend, '')
+  console.log('Gas estimated: ' + gasEstimation)
+  
+  let usedFee = calculateFee(
+    Math.round(gasEstimation * 1.3), 
+    GasPrice.fromString(0.25 + 'utori')
+  )  
+  console.log('Fee: ', usedFee)
 } else {
   // Broadcast multiSend
   const result = await client.signAndBroadcast(senderWallet.address, copieMultiSend, fee, '')
