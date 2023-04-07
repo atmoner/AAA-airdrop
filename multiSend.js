@@ -47,7 +47,11 @@ const [senderWallet] = await wallet.getAccounts();
 
 // Create client to broadcast
 const rpcEndpoint = 'https://teritori-rpc.polkachu.com';
-const client = await SigningStargateClient.connectWithSigner(rpcEndpoint, wallet);
+const client = await SigningStargateClient.connectWithSigner(
+  rpcEndpoint, 
+  wallet,
+  { gasPrice: 0.25 + 'utori') }
+);
 
 // MultiSig set up
 
@@ -106,7 +110,7 @@ if (isSimulated) {
   console.log('Fee: ', usedFee)
 } else {
   // Broadcast multiSend
-  const result = await client.signAndBroadcast(senderWallet.address, copieMultiSend, fee, '')
+  const result = await client.signAndBroadcast(senderWallet.address, copieMultiSend, 'auto', '')
   assertIsBroadcastTxSuccess(result)
   console.log(result)
 
