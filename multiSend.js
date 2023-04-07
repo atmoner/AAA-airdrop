@@ -110,7 +110,7 @@ if (isSimulated) {
   if (result.code !== undefined && result.code !== 0) {
     alert("Failed to send tx: " + result.log || result.rawLog);
   } else {
-      alert("Succeed to send tx:" + result.transactionHash);
+    alert("Succeed to send tx:" + result.transactionHash);
   }
 }
 
