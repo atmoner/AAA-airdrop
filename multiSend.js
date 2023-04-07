@@ -50,7 +50,7 @@ const rpcEndpoint = 'https://teritori-rpc.polkachu.com';
 const client = await SigningStargateClient.connectWithSigner(
   rpcEndpoint, 
   wallet,
-  { gasPrice: 0.25 + 'utori') }
+  { gasPrice: 0.25 + 'utori' },
 );
 
 // MultiSig set up
