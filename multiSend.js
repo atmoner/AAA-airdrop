@@ -1,4 +1,6 @@
-import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing"
+import {
+  DirectSecp256k1HdWallet
+} from "@cosmjs/proto-signing"
 import {
   defaultRegistryTypes,
   assertIsDeliverTxSuccess,
@@ -7,11 +9,11 @@ import {
 import fs from "fs"
 
 var inputs = []
-var outputs = [] 
+var outputs = []
 
 // File read
 let rawdata = fs.readFileSync('owners_eligible.json')
-let finalData = JSON.parse(rawdata) 
+let finalData = JSON.parse(rawdata)
 
 // ENV VAR READ
 
@@ -35,10 +37,9 @@ if (isSimulated) {
 
 // Wallet set up
 
-const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, { 
-    prefix: 'tori' 
-  }
-)
+const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+  prefix: 'tori'
+})
 // Here we get address sender
 const [senderWallet] = await wallet.getAccounts();
 
@@ -50,48 +51,41 @@ const client = await SigningStargateClient.connectWithSigner(rpcEndpoint, wallet
 
 // Set fee/gas
 const fee = {
-  amount: [
-    {
-      denom: 'utori',
-      amount: '5000',
-    },
-  ],
+  amount: [{
+    denom: 'utori',
+    amount: '5000',
+  }, ],
   gas: gas,
 }
 
 // Here we foreach file generated on convertion step
 // Inputs = sender (AAA team part)
 // Outputs = recipient of airdrop
-finalData.forEach(function(item) {
-  
+finalData.forEach(function (item) {
   inputs.push({
     "address": senderWallet.address,
-    "coins": [
-      {
-        "amount": String(item.rewards),
-        "denom": 'utori'
-      }
-    ]
+    "coins": [{
+      "amount": String(item.rewards),
+      "denom": 'utori'
+    }]
   })
   outputs.push({
     "address": item.owner_addr,
-    "coins": [
-      {
-        "amount": String(item.rewards),
-        "denom": 'utori'
-      }
-    ]
+    "coins": [{
+      "amount": String(item.rewards),
+      "denom": 'utori'
+    }]
   })
 })
 
 // Format message to broadcast
-const registryMsgMultiSend = defaultRegistryTypes[4][1]     
+const registryMsgMultiSend = defaultRegistryTypes[4][1]
 
 const copieMultiSend = [{
   typeUrl: '/cosmos.bank.v1beta1.MsgMultiSend',
   value: registryMsgMultiSend.fromPartial({
-      "inputs": inputs,
-      "outputs": outputs
+    "inputs": inputs,
+    "outputs": outputs
   }),
 }]
 
@@ -113,5 +107,3 @@ if (isSimulated) {
     alert("Succeed to send tx:" + result.transactionHash);
   }
 }
-
-
